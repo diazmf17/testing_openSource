@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
+import java.sql.*;  
 
 @WebServlet(
         name = "loginServlet",
@@ -20,12 +21,36 @@ public class LoginServlet extends HttpServlet
     private static final Map<String, String> userDatabase = new Hashtable<>();
 
     static {
-        userDatabase.put("Nicholas", "password");
-        userDatabase.put("Sarah", "drowssap");
-        userDatabase.put("Mike", "wordpass");
-        userDatabase.put("John", "green");
+        //userDatabase.put("Nicholas", "password");
+       // userDatabase.put("Sarah", "drowssap");
+        //userDatabase.put("Mike", "wordpass");
+        //userDatabase.put("John", "green");
+        
+    	try{  
+            Class.forName("com.mysql.jdbc.Driver");  
+            Connection con=DriverManager.getConnection(  
+            "jdbc:mysql://localhost:3306/customersupport","root","password");  
+            //here sonoo is database name, root is username and password  
+            Statement stmt=con.createStatement();  
+            ResultSet rs=stmt.executeQuery("select * from emp");  
+            while(rs.next())  
+            System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+            con.close();  
+            }catch(Exception e){ System.out.println(e);}  
+            
     }
 
+    
+  
+    
+    
+    
+     
+    
+    
+    
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
@@ -77,3 +102,4 @@ public class LoginServlet extends HttpServlet
         }
     }
 }
+
